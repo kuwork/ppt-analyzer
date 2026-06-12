@@ -84,6 +84,51 @@
 
 ---
 
+## 📦 安装技能包
+
+本技能包无需发布到 npm，用户可通过以下方式安装使用：
+
+### 方式一：npm 从 GitHub 直接安装（推荐）
+
+```bash
+# 安装到项目
+npm install kuwork/ppt-analyzer
+
+# 或指定分支
+npm install kuwork/ppt-analyzer#main
+
+# 临时使用（不写入 package.json）
+npx github:kuwork/ppt-analyzer
+```
+
+安装后，AI 读取路径：
+```
+node_modules/ppt-analyzer/skills/ppt-analyzer/SKILL.md
+```
+
+### 方式二：克隆到本地
+
+```bash
+git clone https://github.com/kuwork/ppt-analyzer.git
+```
+
+克隆后，AI 读取路径：
+```
+ppt-analyzer/skills/ppt-analyzer/SKILL.md
+```
+
+### 方式三：Kimi Code CLI 直接加载
+
+在 Kimi Code CLI 中，直接让 AI 读取远程 SKILL.md：
+
+```
+读取 https://github.com/kuwork/ppt-analyzer/blob/main/skills/ppt-analyzer/SKILL.md
+```
+
+或使用 `/skill` 命令加载本地技能目录。
+
+---
+
 ## 📖 使用场景
 
 - 项目验收汇报 PPT 的结构化归档
