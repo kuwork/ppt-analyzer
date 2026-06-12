@@ -86,7 +86,7 @@
 
 ## 📦 安装技能包
 
-### 方式一：安装到 Kimi Code CLI 技能目录（推荐）
+### 方式一：直接克隆到技能目录（推荐）
 
 Kimi Code CLI 会自动从以下路径加载技能：
 
@@ -101,42 +101,39 @@ Kimi Code CLI 会自动从以下路径加载技能：
 **安装步骤：**
 
 ```bash
-# 1. 进入你的 User 技能目录（以 ~/.config/agents/skills/ 为例）
-cd ~/.config/agents/skills/
+# 1. 进入你的 User 技能目录
+cd ~/.config/agents/skills/   # 或 ~/.kimi/skills/ 或 ~/.claude/skills/
 
-# 2. 克隆本仓库
-git clone https://github.com/kuwork/ppt-analyzer.git
+# 2. 克隆仓库（临时位置）
+git clone https://github.com/kuwork/ppt-analyzer.git /tmp/ppt-analyzer
 
-# 3. 将技能文件夹放到正确的位置
-mkdir -p ppt-analyzer
-cp -r ppt-analyzer/skills/ppt-analyzer/* ppt-analyzer/
+# 3. 复制 skills/ppt-analyzer 文件夹到当前目录
+cp -r /tmp/ppt-analyzer/skills/ppt-analyzer ./ppt-analyzer
 
-# 最终结构应为：
-# ~/.config/agents/skills/
-# └── ppt-analyzer/
-#     ├── SKILL.md
-#     ├── scripts/
-#     └── references/
+# 4. 清理临时文件
+rm -rf /tmp/ppt-analyzer
 ```
 
-安装后，Kimi Code CLI 会自动识别并加载该技能。
+安装后目录结构：
+```
+~/.config/agents/skills/
+└── ppt-analyzer/
+    ├── SKILL.md
+    ├── scripts/
+    └── references/
+```
+
+Kimi Code CLI 会自动识别并加载该技能。
 
 ### 方式二：安装到项目目录
 
 ```bash
-# 在项目根目录创建 .agents/skills/ 目录
+# 在项目根目录执行
 mkdir -p .agents/skills
 
-# 克隆并复制技能文件
 git clone https://github.com/kuwork/ppt-analyzer.git /tmp/ppt-analyzer
 cp -r /tmp/ppt-analyzer/skills/ppt-analyzer .agents/skills/
-
-# 最终结构：
-# .agents/skills/
-# └── ppt-analyzer/
-#     ├── SKILL.md
-#     ├── scripts/
-#     └── references/
+rm -rf /tmp/ppt-analyzer
 ```
 
 ### 方式三：npm 从 GitHub 安装（适合需要脚本依赖的场景）
@@ -145,19 +142,12 @@ cp -r /tmp/ppt-analyzer/skills/ppt-analyzer .agents/skills/
 npm install kuwork/ppt-analyzer
 ```
 
-安装后技能文件位于：
-```
-node_modules/ppt-analyzer/skills/ppt-analyzer/
-```
-
-你可以手动将其复制到 Kimi 的技能目录：
+安装后技能文件位于 `node_modules/ppt-analyzer/skills/ppt-analyzer/`，你可以手动复制到 Kimi 的技能目录：
 ```bash
 cp -r node_modules/ppt-analyzer/skills/ppt-analyzer ~/.config/agents/skills/
 ```
 
 ### 方式四：直接让 AI 读取（临时使用）
-
-在 Kimi Code CLI 中，直接让 AI 读取远程 SKILL.md：
 
 ```
 读取 https://github.com/kuwork/ppt-analyzer/blob/main/skills/ppt-analyzer/SKILL.md
