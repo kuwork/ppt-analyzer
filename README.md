@@ -86,46 +86,82 @@
 
 ## 📦 安装技能包
 
-本技能包无需发布到 npm，用户可通过以下方式安装使用：
+### 方式一：安装到 Kimi Code CLI 技能目录（推荐）
 
-### 方式一：npm 从 GitHub 直接安装（推荐）
+Kimi Code CLI 会自动从以下路径加载技能：
 
-```bash
-# 安装到项目
-npm install kuwork/ppt-analyzer
+**User 级别（全局生效）：**
+- `~/.config/agents/skills/`（推荐）
+- `~/.kimi/skills/`
+- `~/.claude/skills/`
 
-# 或指定分支
-npm install kuwork/ppt-analyzer#main
+**Project 级别（仅当前项目）：**
+- `.agents/skills/`
 
-# 临时使用（不写入 package.json）
-npx github:kuwork/ppt-analyzer
-```
-
-安装后，AI 读取路径：
-```
-node_modules/ppt-analyzer/skills/ppt-analyzer/SKILL.md
-```
-
-### 方式二：克隆到本地
+**安装步骤：**
 
 ```bash
+# 1. 进入你的 User 技能目录（以 ~/.config/agents/skills/ 为例）
+cd ~/.config/agents/skills/
+
+# 2. 克隆本仓库
 git clone https://github.com/kuwork/ppt-analyzer.git
+
+# 3. 将技能文件夹放到正确的位置
+mkdir -p ppt-analyzer
+cp -r ppt-analyzer/skills/ppt-analyzer/* ppt-analyzer/
+
+# 最终结构应为：
+# ~/.config/agents/skills/
+# └── ppt-analyzer/
+#     ├── SKILL.md
+#     ├── scripts/
+#     └── references/
 ```
 
-克隆后，AI 读取路径：
-```
-ppt-analyzer/skills/ppt-analyzer/SKILL.md
+安装后，Kimi Code CLI 会自动识别并加载该技能。
+
+### 方式二：安装到项目目录
+
+```bash
+# 在项目根目录创建 .agents/skills/ 目录
+mkdir -p .agents/skills
+
+# 克隆并复制技能文件
+git clone https://github.com/kuwork/ppt-analyzer.git /tmp/ppt-analyzer
+cp -r /tmp/ppt-analyzer/skills/ppt-analyzer .agents/skills/
+
+# 最终结构：
+# .agents/skills/
+# └── ppt-analyzer/
+#     ├── SKILL.md
+#     ├── scripts/
+#     └── references/
 ```
 
-### 方式三：Kimi Code CLI 直接加载
+### 方式三：npm 从 GitHub 安装（适合需要脚本依赖的场景）
+
+```bash
+npm install kuwork/ppt-analyzer
+```
+
+安装后技能文件位于：
+```
+node_modules/ppt-analyzer/skills/ppt-analyzer/
+```
+
+你可以手动将其复制到 Kimi 的技能目录：
+```bash
+cp -r node_modules/ppt-analyzer/skills/ppt-analyzer ~/.config/agents/skills/
+```
+
+### 方式四：直接让 AI 读取（临时使用）
 
 在 Kimi Code CLI 中，直接让 AI 读取远程 SKILL.md：
 
 ```
 读取 https://github.com/kuwork/ppt-analyzer/blob/main/skills/ppt-analyzer/SKILL.md
 ```
-
-或使用 `/skill` 命令加载本地技能目录。
 
 ---
 
