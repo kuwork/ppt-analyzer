@@ -783,6 +783,59 @@ def verify_notes(index_path, notes_md_path, total_pages):
         print(f"{os.path.basename(path)} 中剩余空置: {vacancy_count}/{total_pages}")
 ```
 
+### 7.5 将备注写回 PPT 文件（可选，谨慎操作）
+
+如果用户**明确要求**将 AI 生成的补充讲稿保存到 PPT 文件中，可以使用 `write_notes.py` 脚本批量写入。
+
+> **⚠️ 强烈建议**：在副本文件上操作，保留原始 PPT 文件不变。脚本默认输出到 `<原文件名>_已更新备注.pptx`，不会覆盖原文件。
+
+**脚本位置**：`{skill-dir}/scripts/write_notes.py`
+
+**前置依赖**：
+```bash
+pip install python-pptx
+```
+
+**用法一：从 JSON 文件写入**
+
+```bash
+python {skill-dir}/scripts/write_notes.py <pptx路径> <json路径> [输出路径]
+```
+
+JSON 文件格式：
+```json
+{
+    "pages": [
+        {"page": 1, "note": "第一页补充讲稿内容"},
+        {"page": 3, "note": "第三页补充讲稿内容"}
+    ]
+}
+```
+
+**用法二：从 Markdown 文件写入（推荐）**
+
+```bash
+python {skill-dir}/scripts/write_notes.py --from-md <pptx路径> <备注提取.md路径> [输出路径]
+```
+
+此命令会自动解析 `备注提取.md` 中的每页备注内容，过滤掉「（无）」占位符，将有效备注写回 PPT。
+
+**用法三：批量范围写入**
+
+```json
+{
+    "pages": [
+        {"page": "1-5", "notes": ["备注1", "备注2", "备注3", "备注4", "备注5"]}
+    ]
+}
+```
+
+**脚本特性**：
+- 自动为没有备注幻灯片的页面创建备注布局
+- 写入前清空原有备注，避免追加重复
+- 支持单页写入、批量范围写入、从 Markdown 解析写入三种模式
+- **默认输出到 `<原文件名>_已更新备注.pptx`，不覆盖原文件**
+
 > **注意**：
 > 1. 回填时应保留 `备注提取.md` 中的「页面文本」部分，仅替换「备注」栏。
 > 2. 若通过子 Agent 生成备注并以 JSON 格式传递，**必须使用 `json.dump()` 序列化**，禁止手动拼接 JSON 字符串（中文引号 `"` 未转义会导致解析失败）。
@@ -835,6 +888,7 @@ def verify_notes(index_path, notes_md_path, total_pages):
 | Windows Python 写文件失败（exit code 49） | 避免将含特殊字符的文本直接嵌入 Shell 命令；将 Python 脚本先写入临时文件再执行，在内存中构建完整内容后一次性写入 |
 | PPT 中证书图片重复 | 同一证书常同时嵌入缩略图和原图，按图片尺寸或内容哈希去重后再识别 |
 | 子 Agent 结果丢失 | 收集结果时检查每页是否都有识别概要，缺失页码重新派发 |
+| 如何将补充讲稿写回 PPT | 仅在用户明确要求时使用 `write_notes.py`；脚本默认输出到 `<原文件名>_已更新备注.pptx`，不覆盖原文件，建议在副本上操作 |
 
 ---
 
@@ -861,7 +915,8 @@ def verify_notes(index_path, notes_md_path, total_pages):
 9. **分析备注空置率**：统计 `备注提取.md` 中备注为空的页数比例。
     - 若空置率 ≥ 30% 或 100%：判定为 PDF 幻灯片或未写讲稿，根据识别概要和页面文本为所有空置页生成补充备注（讲稿），回填到 `备注提取.md` 和 `幻灯片索引.md`。
     - 若空置率 < 30%：仅对个别空置页生成补充备注。
-10. 汇总分析生成 `分析结果.md`。
+10. （可选，仅在用户明确要求时）使用 `write_notes.py` 将补充备注写回 PPT 副本：`python write_notes.py --from-md <pptx路径> <备注提取.md路径>`。脚本默认生成 `<原文件名>_已更新备注.pptx`，不会覆盖原文件。
+11. 汇总分析生成 `分析结果.md`。
 
 ### PDF 文件示例
 

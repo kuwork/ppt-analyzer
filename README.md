@@ -23,7 +23,8 @@
 │   └── ppt-analyzer/
 │       ├── SKILL.md              # 技能完整指令集
 │       ├── scripts/
-│       │   └── extract_notes.py  # PPT 备注提取脚本
+│       │   ├── extract_notes.py  # PPT 备注提取脚本（python-pptx）
+│       │   └── write_notes.py    # PPT 备注批量写入脚本
 │       └── references/
 │           └── sed-coordinate-positioning-multiline-replace-insert-cheatsheet.md
 ├── .gitignore
@@ -65,6 +66,8 @@
 6. **备注空置处理**：统计备注空置率，为空置页生成补充讲稿
 7. **汇总分析**（可选）：生成 `分析结果.md`，输出整体结构、核心结论、关键图表索引等
 
+> **进阶工具**：`write_notes.py` — 将 AI 生成的补充讲稿批量写回 PPT 文件，实现「备注回填」
+
 详细操作步骤、脚本模板和最佳实践，请参阅 [`skills/ppt-analyzer/SKILL.md`](skills/ppt-analyzer/SKILL.md)。
 
 ---
@@ -81,6 +84,7 @@
 | **表格恢复** | 优先将表格转录为 Markdown 表格，便于后续检索和比对 |
 | **证书精读** | 对证书、专利、软著等知识产权图片进行深度信息提取 |
 | **并行处理** | 大规模 PPT（>30 页）支持多 Agent 并行分析，显著提速 |
+| **备注回填** | `write_notes.py` 将 AI 生成的补充讲稿批量写回 PPT 文件 |
 
 ---
 
@@ -120,6 +124,8 @@ rm -rf /tmp/ppt-analyzer
 └── ppt-analyzer/
     ├── SKILL.md
     ├── scripts/
+    │   ├── extract_notes.py
+    │   └── write_notes.py
     └── references/
 ```
 
