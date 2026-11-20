@@ -1,12 +1,13 @@
 {
   "name": "ppt-analyzer",
   "version": "1.0.0",
-  "description": "AI Skill for PPT analysis: export slides to images via WPS, then let AI read and analyze them.",
+  "description": "AI-native skill that turns PPTX/PDF slides into structured Markdown: export pages to PNG with WPS, then let vision AI extract structure, tables and speaker notes.",
   "main": "skills/ppt-analyzer/SKILL.md",
   "files": [
     "skills/",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "README.zh-CN.md"
   ],
   "scripts": {
     "postinstall": "node -e \"console.log('\\n  ppt-analyzer skill installed!\\n  AI can now read: node_modules/ppt-analyzer/skills/ppt-analyzer/SKILL.md\\n')\""
@@ -15,11 +16,21 @@
     "ppt",
     "pptx",
     "pdf",
+    "slides",
     "ai-skill",
     "llm-skill",
+    "agent-skill",
     "mcp-skill",
     "slide-analysis",
-    "presentation"
+    "presentation",
+    "speaker-notes",
+    "wps",
+    "markdown",
+    "claude",
+    "kimi",
+    "computer-vision",
+    "document-analysis",
+    "pptx-to-markdown"
   ],
   "author": "kuwork",
   "license": "MIT",
